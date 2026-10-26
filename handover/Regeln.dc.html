@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Spielregeln und Wertung</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--wfont:'Gochi Hand',cursive;--wweight:400;--wimg:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);--wsize:4px 4px,7px 6px,100% 100%;--wstroke:.03em #C8210F;--wfilter:drop-shadow(0 0 .6px rgba(200,33,15,.5));--hsd:none;--hso:1}
+.t-pen{--paper:#FBF7E6;--paper2:#F2EBD1;--line:#E4DBBD;--line2:#CDBF97;--ink:#25272D;--ink2:#464851;--ink3:#5E605F;--pen:#1F3FA6;--wfont:'Caveat',cursive;--wweight:600;--wimg:repeating-linear-gradient(100deg,transparent 0 3px,rgba(251,247,230,.22) 3px 4px),linear-gradient(180deg,#2A4BBE,#17348E);--wsize:auto,100% 100%;--wstroke:0 transparent;--wfilter:none;--hsd:none;--hso:1}
+.t-pencil{--paper:#FBF6EE;--paper2:#F3EADB;--line:#E8DCC8;--line2:#D3C2A6;--ink:#3A322A;--ink2:#5C5246;--ink3:#6B6155;--pen:#E06A18;--wfont:'Patrick Hand',cursive;--wweight:400;--wimg:repeating-linear-gradient(-55deg,rgba(251,246,238,.55) 0 .7px,transparent .7px 2.4px),radial-gradient(circle at 40% 40%,rgba(251,246,238,.6) 0 .5px,transparent .9px),linear-gradient(#F0832F,#E06A18 60%,#D85F10);--wsize:auto,3px 3px,100% 100%;--wstroke:.015em rgba(232,112,30,.5);--wfilter:none;--hsd:14 1.5;--hso:.9}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink)}
+.wax{font-family:var(--wfont);font-weight:var(--wweight);color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;background-image:var(--wimg);background-size:var(--wsize);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:var(--wstroke);filter:var(--wfilter)}
+.hs{fill:none;stroke:var(--pen);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--hsd);opacity:var(--hso)}
+.ic{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+a:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+</style>
+</helmet>
+<div class="ui {{th}}" style="width:390px;min-height:2080px;box-sizing:border-box;display:flex;flex-direction:column;padding-bottom:48px">
+
+  <div style="display:flex;align-items:center;padding:48px 6px 0 6px">
+    <a href="Statistik.dc.html" aria-label="Zurück zur Statistik" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px">
+      <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+  </div>
+
+  <div style="padding:0 24px;display:flex;flex-direction:column">
+    <h1 class="wax" style="margin:0;font-size:44px;line-height:.95;transform:rotate(-3deg);transform-origin:left bottom">spielregeln</h1>
+    <svg width="220" height="14" viewBox="0 0 220 14" aria-hidden="true" style="margin:2px 0 0 4px"><path class="hs" d="M4 9 C 60 3, 130 13, 216 4" stroke-width="3.6"></path></svg>
+    <p style="margin:14px 0 0 0;font-size:15px;line-height:1.5;color:var(--ink2)">Kniffel mit 5 Würfeln, 13 Feldern pro Person. Wer am Ende die meisten Punkte hat, gewinnt.</p>
+  </div>
+
+  <nav aria-label="Abschnitte" style="display:flex;gap:8px;padding:18px 20px 0 20px;flex-wrap:wrap">
+    <a href="#ablauf" style="text-decoration:none;color:var(--ink);min-height:36px;padding:0 14px;border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line2);display:flex;align-items:center;font-size:13px;font-weight:600">Ablauf</a>
+    <a href="#wertung" style="text-decoration:none;color:var(--ink);min-height:36px;padding:0 14px;border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line2);display:flex;align-items:center;font-size:13px;font-weight:600">Wertung</a>
+    <a href="#bonus" style="text-decoration:none;color:var(--ink);min-height:36px;padding:0 14px;border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line2);display:flex;align-items:center;font-size:13px;font-weight:600">Bonus</a>
+    <a href="#app" style="text-decoration:none;color:var(--ink);min-height:36px;padding:0 14px;border-radius:18px;box-shadow:inset 0 0 0 1.5px var(--line2);display:flex;align-items:center;font-size:13px;font-weight:600">In der App</a>
+  </nav>
+
+  <section id="ablauf" style="padding:30px 20px 0 20px;display:flex;flex-direction:column;gap:4px">
+    <h2 class="cap" style="margin:0 0 6px 0">Ablauf eines Zugs</h2>
+    <sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+      <div style="display:grid;grid-template-columns:36px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)">
+        <span class="wax" style="font-size:32px;line-height:1">{{s.n}}</span>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <span style="font-size:16px;font-weight:600">{{s.t}}</span>
+          <span style="font-size:14px;line-height:1.5;color:var(--ink2)">{{s.d}}</span>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section id="wertung" style="padding:30px 20px 0 20px;display:flex;flex-direction:column">
+    <h2 class="cap" style="margin:0 0 6px 0">Wertung</h2>
+    <span style="font-size:13px;font-weight:600;padding:10px 0 4px 0">Oberer Block</span>
+    <sc-for list="{{upper}}" as="r" hint-placeholder-count="2">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:15px;font-weight:600">{{r.f}}</span>
+          <span style="font-size:13px;line-height:1.45;color:var(--ink2)">{{r.c}}</span>
+        </div>
+        <span class="wax" style="font-size:26px;line-height:1;text-align:right">{{r.p}}</span>
+      </div>
+    </sc-for>
+    <span style="font-size:13px;font-weight:600;padding:18px 0 4px 0">Unterer Block</span>
+    <sc-for list="{{lower}}" as="r" hint-placeholder-count="7">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:15px;font-weight:600">{{r.f}}</span>
+          <span style="font-size:13px;line-height:1.45;color:var(--ink2)">{{r.c}}</span>
+        </div>
+        <span class="wax" style="font-size:26px;line-height:1;text-align:right">{{r.p}}</span>
+      </div>
+    </sc-for>
+    <div style="display:flex;gap:12px;align-items:center;padding:14px 0 0 0">
+      <svg width="54" height="15" viewBox="0 0 58 16" aria-hidden="true" style="flex:none"><path class="hs" d="M4 10 C 13 3, 21 13, 30 7 S 47 4, 54 8" stroke-width="3.6"></path></svg>
+      <span style="font-size:14px;line-height:1.5;color:var(--ink2)">Passt nichts, muss ein freies Feld gestrichen werden – es zählt 0.</span>
+    </div>
+  </section>
+
+  <section id="bonus" style="padding:30px 20px 0 20px;display:flex;flex-direction:column;gap:10px">
+    <h2 class="cap" style="margin:0">Bonus</h2>
+    <div style="background:var(--paper2);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:16px">
+      <span class="wax" style="font-size:44px;line-height:1">+35</span>
+      <span style="font-size:14px;line-height:1.5;color:var(--ink2)">wenn der obere Block zusammen mindestens 63 ergibt. Das sind genau drei von jeder Zahl.</span>
+    </div>
+    <span style="font-size:14px;line-height:1.5;color:var(--ink2)">Im Block zeigt die Bonus-Zeile „33 / 63“ und daneben den Kurs: <strong style="color:var(--ink)">+5</strong> heißt, du liegst 5 Punkte über dem Soll von drei pro Zahl.</span>
+  </section>
+
+  <section id="app" style="padding:30px 20px 0 20px;display:flex;flex-direction:column;gap:4px">
+    <h2 class="cap" style="margin:0 0 6px 0">In der App</h2>
+    <sc-for list="{{tips}}" as="t" hint-placeholder-count="7">
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:start">
+        <span style="width:28px;height:28px;border-radius:8px;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink2)">{{t.k}}</span>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:15px;font-weight:600">{{t.t}}</span>
+          <span style="font-size:13px;line-height:1.45;color:var(--ink2)">{{t.d}}</span>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"stil":{"editor":"enum","options":["Grau · Wachs-Rot","Papier · Kuli-Blau","Beige · Buntstift-Orange"],"default":"Grau · Wachs-Rot"},"$preview":{"width":390,"height":2080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.props.stil ?? 'Grau · Wachs-Rot';
+    return {
+      th: s.indexOf('Kuli') >= 0 ? 't-pen' : (s.indexOf('Buntstift') >= 0 ? 't-pencil' : 't-wax'),
+      steps: [
+        { n: '1', t: 'Bis zu dreimal würfeln', d: 'Alle 5 Würfel werfen. Danach beliebig viele zur Seite legen und den Rest erneut werfen – höchstens dreimal pro Zug.' },
+        { n: '2', t: 'Ein Feld wählen', d: 'Nach dem letzten Wurf trägst du das Ergebnis in genau ein freies Feld deiner Spalte ein.' },
+        { n: '3', t: 'Oder streichen', d: 'Passt kein Feld oder lohnt es sich nicht, streichst du ein freies Feld mit 0.' },
+        { n: '4', t: 'Weitergeben', d: 'Dann ist die nächste Person dran. Nach 13 Runden sind alle Felder voll und das Spiel endet.' }
+      ],
+      upper: [
+        { f: '1er bis 6er', c: 'Nur die Würfel mit dieser Augenzahl zählen. Drei Fünfer = 15.', p: '0–30' },
+        { f: 'Bonus', c: 'Automatisch bei mindestens 63 im oberen Block.', p: '+35' }
+      ],
+      lower: [
+        { f: 'Dreierpasch', c: 'Mindestens 3 gleiche – Summe aller 5 Würfel.', p: '5–30' },
+        { f: 'Viererpasch', c: 'Mindestens 4 gleiche – Summe aller 5 Würfel.', p: '5–30' },
+        { f: 'Full House', c: '3 gleiche und 2 gleiche, z. B. 5-5-5-2-2.', p: '25' },
+        { f: 'Kleine Straße', c: '4 aufeinanderfolgende Zahlen, z. B. 2-3-4-5.', p: '30' },
+        { f: 'Große Straße', c: '5 aufeinanderfolgende Zahlen, 1–5 oder 2–6.', p: '40' },
+        { f: 'Kniffel', c: '5 gleiche.', p: '50' },
+        { f: 'Chance', c: 'Beliebiger Wurf – Summe aller 5 Würfel.', p: '5–30' }
+      ],
+      tips: [
+        { k: '+', t: 'Person hinzufügen', d: 'Plus oben rechts neben dem Radierer, bis zu 5 Personen. Nur vor dem ersten Eintrag.' },
+        { k: 'Aa', t: 'Namen eintragen', d: 'Namen im Block antippen, bekannten Namen wählen oder „Neuer Name“ eintippen.' },
+        { k: '1', t: 'Punkte eintragen', d: 'Freies Feld in der markierten Spalte antippen und den Wert wählen oder eintippen.' },
+        { k: '↺', t: 'Rückgängig', d: 'Nach jedem Eintrag erscheint unten kurz „Rückgängig“.' },
+        { k: '✎', t: 'Korrigieren', d: 'Ein bereits gefülltes Feld antippen und neuen Wert wählen.' },
+        { k: '⌫', t: 'Neues Spiel', d: 'Radierer oben rechts: Punkte weg, Namen bleiben, die nächste Person beginnt.' },
+        { k: '=', t: 'Gleichstand', d: 'Bei gleicher Punktzahl teilen sich alle den Platz.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

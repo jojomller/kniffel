@@ -1,0 +1,164 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "BlockBuntstift.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "Stil 3 · Beige & Buntstift-Orange",
+      "w": 390,
+      "x": 470,
+      "y": 1264
+    },
+    "BlockKuli.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "Stil 2 · Papier & Kuli-Blau",
+      "w": 390,
+      "x": 0,
+      "y": 1264
+    },
+    "EintragFix.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "05 Eintragen · Festwert",
+      "w": 390,
+      "x": 1880,
+      "y": 0
+    },
+    "EintragOben.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "03 Eintragen · 1er–6er",
+      "w": 390,
+      "x": 940,
+      "y": 0
+    },
+    "EintragSumme.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "04 Eintragen · Pasch & Chance (Zahl eingeben)",
+      "w": 390,
+      "x": 1410,
+      "y": 0
+    },
+    "Ergebnis.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "07 Ergebnis",
+      "w": 390,
+      "x": 2820,
+      "y": 0
+    },
+    "Leeren.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "06 Radierer · Neues Spiel",
+      "w": 390,
+      "x": 2350,
+      "y": 0
+    },
+    "Logik.dc.html": {
+      "h": 1560,
+      "title": "Spielablauf & Wertung",
+      "w": 1280,
+      "x": 0,
+      "y": 2804
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "01 Block – App-Start (spielbar)",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "Namen.dc.html": {
+      "h": 844,
+      "radius": 40,
+      "title": "02 Namen wählen / eintippen",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "Regeln.dc.html": {
+      "h": 2080,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "09 Spielregeln & Wertung (scrollt)",
+      "w": 390,
+      "x": 3760,
+      "y": 0
+    },
+    "Statistik.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "08 Statistik & Farbstil",
+      "w": 390,
+      "x": 3290,
+      "y": 0
+    },
+    "Typo.dc.html": {
+      "h": 1120,
+      "title": "Farbstile, Schrift & Elemente",
+      "w": 1280,
+      "x": 940,
+      "y": 1264
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-26T20:15:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 4150,
+      "text": "kniffel — Stil 1: Grau & Wachs-Rot",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 2220,
+      "text": "Farbstile 2 & 3, Schrift & Elemente",
+      "w": 240,
+      "x": 0,
+      "y": 984
+    },
+    "t3": {
+      "kind": "title1",
+      "maxW": 1280,
+      "text": "Spiellogik",
+      "w": 240,
+      "x": 0,
+      "y": 2524
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Namen.dc.html",
+    "EintragOben.dc.html",
+    "EintragSumme.dc.html",
+    "EintragFix.dc.html",
+    "Leeren.dc.html",
+    "Ergebnis.dc.html",
+    "Statistik.dc.html",
+    "Regeln.dc.html",
+    "BlockKuli.dc.html",
+    "BlockBuntstift.dc.html",
+    "Typo.dc.html",
+    "Logik.dc.html"
+  ],
+  "pages": [],
+  "title": "Kniffel Redesign"
+}

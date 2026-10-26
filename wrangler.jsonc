@@ -1,0 +1,9 @@
+{
+  // Cloudflare (Workers Builds): liefert den Hauptordner als statische Dateien aus, ohne Build.
+  // Der Name muss dem Projektnamen in Cloudflare entsprechen.
+  "name": "kniffel",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}
