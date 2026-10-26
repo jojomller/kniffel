@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Block im Buntstift-Stil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--wfont:'Gochi Hand',cursive;--wweight:400;--wimg:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);--wsize:4px 4px,7px 6px,100% 100%;--wstroke:.03em #C8210F;--wfilter:drop-shadow(0 0 .6px rgba(200,33,15,.5));--hsd:none;--hso:1}
+.t-pen{--paper:#FBF7E6;--paper2:#F2EBD1;--line:#E4DBBD;--line2:#CDBF97;--ink:#25272D;--ink2:#464851;--ink3:#5E605F;--pen:#1F3FA6;--wfont:'Caveat',cursive;--wweight:600;--wimg:repeating-linear-gradient(100deg,transparent 0 3px,rgba(251,247,230,.22) 3px 4px),linear-gradient(180deg,#2A4BBE,#17348E);--wsize:auto,100% 100%;--wstroke:0 transparent;--wfilter:none;--hsd:none;--hso:1}
+.t-pencil{--paper:#FBF6EE;--paper2:#F3EADB;--line:#E8DCC8;--line2:#D3C2A6;--ink:#3A322A;--ink2:#5C5246;--ink3:#6B6155;--pen:#E06A18;--wfont:'Patrick Hand',cursive;--wweight:400;--wimg:repeating-linear-gradient(-55deg,rgba(251,246,238,.55) 0 .7px,transparent .7px 2.4px),radial-gradient(circle at 40% 40%,rgba(251,246,238,.6) 0 .5px,transparent .9px),linear-gradient(#F0832F,#E06A18 60%,#D85F10);--wsize:auto,3px 3px,100% 100%;--wstroke:.015em rgba(232,112,30,.5);--wfilter:none;--hsd:14 1.5;--hso:.9}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink)}
+.wax{font-family:var(--wfont);font-weight:var(--wweight);color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;background-image:var(--wimg);background-size:var(--wsize);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:var(--wstroke);filter:var(--wfilter)}
+.hs{fill:none;stroke:var(--pen);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--hsd);opacity:var(--hso)}
+.ic{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--pen);outline-offset:-2px}
+</style>
+</helmet>
+<div class="ui {{th}}" style="width:390px;height:844px;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;position:relative">
+
+  <div style="display:grid;grid-template-columns:56px 1fr 56px;align-items:center;padding:48px 6px 0 6px">
+    <a href="Statistik.dc.html" aria-label="Statistik öffnen" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px">
+      <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.7" aria-hidden="true"><path d="M4 20h16M7 20v-6M12 20V6M17 20v-9"></path></svg>
+    </a>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <span class="wax" style="font-size:30px;line-height:1;transform:rotate(-2deg)">kniffel</span>
+      <span class="cap" style="font-size:10px">{{zug}}</span>
+    </div>
+    <button aria-label="Neues Spiel – Block leeren" style="width:44px;height:44px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0">
+      <svg width="23" height="23" viewBox="0 0 24 24" class="ic" stroke-width="1.6" aria-hidden="true"><path d="M14.1 4.4a1.6 1.6 0 0 1 2.2 0l3.3 3.3a1.6 1.6 0 0 1 0 2.2L11 18.5H7.2l-3-3a1.6 1.6 0 0 1 0-2.2z"></path><path d="M8.6 9.9l5.5 5.5"></path><path d="M11 18.5h9"></path></svg>
+    </button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:{{cols}};height:58px;box-sizing:border-box;border-bottom:1.5px solid var(--line2);margin-top:4px">
+    <div style="display:flex;align-items:flex-end;padding:0 0 10px 16px;border-right:1px solid var(--line)"><span class="cap" style="font-size:10px">Spieler*innen</span></div>
+    <sc-for list="{{heads}}" as="h" hint-placeholder-count="3">
+      <button aria-label="{{h.aria}}" style="border:0;border-right:1px solid var(--line);background:{{h.bg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 4px;min-width:0">
+        <span class="wax" style="font-size:{{h.fs}}px;line-height:1.05">{{h.name}}</span>
+        <sc-if value="{{h.active}}" hint-placeholder-val="{{false}}"><svg width="36" height="7" viewBox="0 0 40 7" aria-hidden="true"><path class="hs" d="M3 4.5 C 13 1.5, 25 6, 37 2.5" stroke-width="2.8"></path></svg></sc-if>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{rows}}" as="r" hint-placeholder-count="14">
+    <div style="display:grid;grid-template-columns:{{r.cols}};height:44px;box-sizing:border-box;border-bottom:{{r.bb}}">
+      <div style="display:flex;align-items:center;gap:9px;padding:0 8px 0 16px;border-right:1px solid var(--line);background:{{r.lbg}};min-width:0">
+        <sc-if value="{{r.hasDice}}" hint-placeholder-val="{{false}}">
+          <span style="position:relative;display:inline-block;width:19px;height:19px;border:1.5px solid var(--ink2);border-radius:5px;box-sizing:border-box;flex:none">
+            <sc-for list="{{r.pips}}" as="p" hint-placeholder-count="3"><span style="position:absolute;left:{{p.l}}px;top:{{p.t}}px;width:{{p.d}}px;height:{{p.d}}px;border-radius:50%;background:var(--ink2)"></span></sc-for>
+          </span>
+        </sc-if>
+        <sc-if value="{{r.isCat}}" hint-placeholder-val="{{true}}"><span style="flex:1;font-size:{{r.lfs}}px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{r.label}}</span></sc-if>
+        <sc-if value="{{r.isBonus}}" hint-placeholder-val="{{false}}"><span class="cap" style="flex:1;color:var(--ink)">Bonus</span></sc-if>
+        <span style="font-size:12px;color:var(--ink3);white-space:nowrap">{{r.hint}}</span>
+      </div>
+      <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:4px;background:{{c.bg}};border-right:1px solid var(--line);min-width:0">
+          <sc-if value="{{c.isVal}}" hint-placeholder-val="{{false}}"><span class="wax" style="font-size:{{c.fs}}px;line-height:1">{{c.v}}</span></sc-if>
+          <sc-if value="{{c.isStrike}}" hint-placeholder-val="{{false}}"><svg role="img" aria-label="gestrichen" width="50" height="14" viewBox="0 0 58 16" style="max-width:78%"><path class="hs" d="M4 10 C 13 3, 21 13, 30 7 S 47 4, 54 8" stroke-width="3.4"></path></svg></sc-if>
+          <sc-if value="{{c.isOpen}}" hint-placeholder-val="{{false}}"><svg width="32" height="4" viewBox="0 0 34 4" aria-hidden="true" style="position:absolute;bottom:10px"><path d="M2 2.4 C 12 1.2, 22 3, 32 1.8" style="fill:none;stroke:var(--line2);stroke-width:2;stroke-linecap:round"></path></svg></sc-if>
+          <sc-if value="{{c.isBonusCell}}" hint-placeholder-val="{{false}}">
+            <span style="font-size:13px;font-weight:600;font-variant-numeric:tabular-nums">{{c.up}}<span style="color:var(--ink3);font-weight:500">{{c.of}}</span></span>
+            <span style="font-size:11px;font-weight:600;color:var(--ink2);border:1px solid var(--line2);border-radius:5px;padding:0 4px">{{c.par}}</span>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </sc-for>
+
+  <div style="display:grid;grid-template-columns:{{cols}};height:56px;box-sizing:border-box;border-top:2px solid var(--ink)">
+    <div style="display:flex;align-items:center;padding-left:16px;border-right:1px solid var(--line)"><span class="cap" style="color:var(--ink)">Gesamt</span></div>
+    <sc-for list="{{totals}}" as="t" hint-placeholder-count="3">
+      <div style="display:flex;align-items:center;justify-content:center;background:{{t.bg}};border-right:1px solid var(--line)"><span class="wax" style="font-size:{{t.fs}}px;line-height:1">{{t.v}}</span></div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"stil":{"editor":"enum","options":["Grau · Wachs-Rot","Papier · Kuli-Blau","Beige · Buntstift-Orange"],"default":"Beige · Buntstift-Orange"},"spieler":{"editor":"enum","options":["2","3"],"default":"3"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  pips(n, s, d) {
+    const a = s * 0.27, m = s * 0.5, z = s * 0.73;
+    const P = { tl: [a, a], tr: [z, a], ml: [a, m], c: [m, m], mr: [z, m], bl: [a, z], br: [z, z] };
+    const map = { 1: ['c'], 2: ['tr', 'bl'], 3: ['tr', 'c', 'bl'], 4: ['tl', 'tr', 'bl', 'br'], 5: ['tl', 'tr', 'c', 'bl', 'br'], 6: ['tl', 'tr', 'ml', 'mr', 'bl', 'br'] };
+    return map[n].map((k) => ({ l: (P[k][0] - d / 2).toFixed(1), t: (P[k][1] - d / 2).toFixed(1), d }));
+  }
+  renderVals() {
+    const s = this.props.stil ?? 'Beige · Buntstift-Orange';
+    const th = s.indexOf('Kuli') >= 0 ? 't-pen' : (s.indexOf('Buntstift') >= 0 ? 't-pencil' : 't-wax');
+    const all = [
+      { name: 'JoJo', s: { u1: 3, u4: 12, u6: 18, ks: 30 } },
+      { name: 'Juli', s: { u2: 6, u5: 20, fh: 25, kn: 0 } },
+      { name: 'Vivi', s: { u3: 9, k3: 22, ch: 21 } }
+    ];
+    const players = all.slice(0, (this.props.spieler ?? '3') === '3' ? 3 : 2);
+    const n = players.length;
+    const cats = [
+      { id: 'u1', label: '1er', face: 1 }, { id: 'u2', label: '2er', face: 2 }, { id: 'u3', label: '3er', face: 3 },
+      { id: 'u4', label: '4er', face: 4 }, { id: 'u5', label: '5er', face: 5 }, { id: 'u6', label: '6er', face: 6 },
+      { id: 'k3', label: 'Dreierpasch', hint: 'Σ' }, { id: 'k4', label: 'Viererpasch', hint: 'Σ' },
+      { id: 'fh', label: 'Full House', hint: '25' }, { id: 'ks', label: 'Kl. Straße', hint: '30' },
+      { id: 'gs', label: 'Gr. Straße', hint: '40' }, { id: 'kn', label: 'Kniffel', hint: '50' }, { id: 'ch', label: 'Chance', hint: 'Σ' }
+    ];
+    const f = players.reduce((a, p) => a + Object.keys(p.s).length, 0);
+    const active = f % n;
+    const labW = n === 3 ? 124 : 140;
+    const cols = labW + 'px repeat(' + n + ', minmax(0, 1fr))';
+    const fs = n <= 2 ? 28 : 26;
+    const act = 'var(--paper2)';
+    const sums = players.map((p) => {
+      let up = 0, low = 0, par = 0;
+      cats.forEach((c) => { const v = p.s[c.id]; if (v === undefined) return; if (c.face) { up += v; par += v - 3 * c.face; } else low += v; });
+      return { up, par, total: up + (up >= 63 ? 35 : 0) + low };
+    });
+    const rows = [];
+    cats.forEach((c) => {
+      rows.push({
+        cols, isCat: true, hasDice: !!c.face, pips: c.face ? this.pips(c.face, 16, 3.4) : [],
+        label: c.label, hint: n >= 3 ? (c.hint === 'Σ' ? '' : c.hint || '') : (c.hint || ''), lfs: n === 3 ? 14 : 15, lbg: 'transparent',
+        bb: c.id === 'u6' ? '1px solid var(--line2)' : '1px solid var(--line)',
+        cells: players.map((p, i) => {
+          const v = p.s[c.id], filled = v !== undefined;
+          return { isVal: filled && v > 0, isStrike: filled && v === 0, isOpen: !filled && i === active, v: filled ? String(v) : '', fs, bg: i === active ? act : 'transparent' };
+        })
+      });
+      if (c.id === 'u6') {
+        rows.push({
+          cols, isCat: false, isBonus: true, hasDice: false, pips: [], label: 'Bonus', hint: n >= 3 ? '' : '+35', lfs: 15, lbg: act, bb: '1px solid var(--line2)',
+          cells: sums.map((x) => ({ isBonusCell: true, up: x.up, of: n <= 2 ? ' / 63' : '', par: x.par > 0 ? '+' + x.par : (x.par === 0 ? '±0' : '−' + Math.abs(x.par)), bg: act }))
+        });
+      }
+    });
+    return {
+      th, cols, rows,
+      zug: 'Zug ' + (f + 1) + ' / ' + (13 * n),
+      heads: players.map((p, i) => ({ name: p.name, active: i === active, bg: i === active ? act : 'transparent', fs: n <= 2 ? 26 : 23, aria: p.name + ': Name ändern' })),
+      totals: sums.map((x, i) => ({ v: String(x.total), fs: n <= 2 ? 36 : 30, bg: i === active ? act : 'transparent' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Farbstile und Schrift</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--wfont:'Gochi Hand',cursive;--wweight:400;--wimg:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);--wsize:4px 4px,7px 6px,100% 100%;--wstroke:.03em #C8210F;--wfilter:drop-shadow(0 0 .6px rgba(200,33,15,.5));--hsd:none;--hso:1}
+.t-pen{--paper:#FBF7E6;--paper2:#F2EBD1;--line:#E4DBBD;--line2:#CDBF97;--ink:#25272D;--ink2:#464851;--ink3:#5E605F;--pen:#1F3FA6;--wfont:'Caveat',cursive;--wweight:600;--wimg:repeating-linear-gradient(100deg,transparent 0 3px,rgba(251,247,230,.22) 3px 4px),linear-gradient(180deg,#2A4BBE,#17348E);--wsize:auto,100% 100%;--wstroke:0 transparent;--wfilter:none;--hsd:none;--hso:1}
+.t-pencil{--paper:#FBF6EE;--paper2:#F3EADB;--line:#E8DCC8;--line2:#D3C2A6;--ink:#3A322A;--ink2:#5C5246;--ink3:#6B6155;--pen:#E06A18;--wfont:'Patrick Hand',cursive;--wweight:400;--wimg:repeating-linear-gradient(-55deg,rgba(251,246,238,.55) 0 .7px,transparent .7px 2.4px),radial-gradient(circle at 40% 40%,rgba(251,246,238,.6) 0 .5px,transparent .9px),linear-gradient(#F0832F,#E06A18 60%,#D85F10);--wsize:auto,3px 3px,100% 100%;--wstroke:.015em rgba(232,112,30,.5);--wfilter:none;--hsd:14 1.5;--hso:.9}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:#2A2A28}
+.wax{font-family:var(--wfont);font-weight:var(--wweight);color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;background-image:var(--wimg);background-size:var(--wsize);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:var(--wstroke);filter:var(--wfilter)}
+.hs{fill:none;stroke:var(--pen);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--hsd);opacity:var(--hso)}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+</style>
+</helmet>
+<div class="ui" style="width:1280px;height:1120px;box-sizing:border-box;background:#FFFFFF;padding:56px 64px;display:flex;flex-direction:column;gap:32px">
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px">
+    <sc-for list="{{styles}}" as="s" hint-placeholder-count="3">
+      <div class="{{s.cls}}" style="background:var(--paper);color:var(--ink);border-radius:24px;padding:32px 28px 30px 28px;display:flex;flex-direction:column;gap:22px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="cap" style="color:var(--ink)">{{s.no}}</span>
+          <span style="font-size:13px;color:var(--ink3)">{{s.font}}</span>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <span class="wax" style="font-size:104px;line-height:.9;transform:rotate(-3deg);transform-origin:left bottom">kniffel</span>
+          <svg width="260" height="16" viewBox="0 0 260 16" aria-hidden="true" style="margin:4px 0 0 4px"><path class="hs" d="M4 11 C 60 3, 150 15, 254 5" stroke-width="4.5"></path></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:20px;font-weight:700">{{s.name}}</span>
+          <span style="font-size:14px;line-height:1.5;color:var(--ink2)">{{s.desc}}</span>
+        </div>
+        <span class="wax" style="font-size:54px;line-height:1;letter-spacing:3px">0123456789</span>
+
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden">
+          <div style="height:60px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line)"><span class="wax" style="font-size:32px;line-height:1">18</span></div>
+          <div style="height:60px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line)"><svg width="54" height="15" viewBox="0 0 58 16" aria-hidden="true"><path class="hs" d="M4 10 C 13 3, 21 13, 30 7 S 47 4, 54 8" stroke-width="3.6"></path></svg></div>
+          <div style="height:60px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;box-sizing:border-box;background:var(--paper2)"><svg width="34" height="4" viewBox="0 0 34 4" aria-hidden="true"><path d="M2 2.4 C 12 1.2, 22 3, 32 1.8" style="fill:none;stroke:var(--line2);stroke-width:2;stroke-linecap:round"></path></svg></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));font-size:12px;color:var(--ink2);text-align:center;margin-top:-14px">
+          <span>eingetragen</span><span>gestrichen</span><span>offen · am Zug</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+          <sc-for list="{{s.sw}}" as="w" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="height:44px;border-radius:10px;background:{{w.hex}};box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)"></div>
+              <span style="font-size:11px;font-weight:600">{{w.name}}</span>
+              <span style="font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums">{{w.hex}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:56px;padding-top:4px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#666662">Regeln für alle drei Stile</span>
+      <span style="font-size:15px;line-height:1.6;color:#4A4A47">Die Stifte haben nur eine Farbe und schreiben ausschließlich, was man auch auf Papier schreiben würde: Titel, Namen, Zahlen, Striche, Kreise. Alle Bedienelemente bleiben in Instrument Sans und den Grau- bzw. Papiertönen des Stils. Gewechselt wird in der Statistik unter „Farbstil“; die Wahl gilt sofort für die ganze App und wird gespeichert.</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#666662">Bedienschrift · Instrument Sans</span>
+      <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap">
+        <span style="font-size:24px;font-weight:700">Titel 24</span>
+        <span style="font-size:17px;font-weight:600">Kopf 17</span>
+        <span style="font-size:15px;font-weight:500">Zeile 15</span>
+        <span style="font-size:13px;color:#666662">Hinweis 13</span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#666662">Label 11</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1120}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      styles: [
+        {
+          cls: 't-wax', no: 'Stil 1', name: 'Grau & Wachs-Rot', font: 'Gochi Hand',
+          desc: 'Dicker, saftiger Wachsmalstift: Rot mit leichtem Verlauf, fetter Kontur und glänzigen Körnern – als hätte man mit Druck geschrieben.',
+          sw: [{ name: 'Papier', hex: '#F2F2F0' }, { name: 'Fläche', hex: '#E8E8E5' }, { name: 'Linie', hex: '#D9D9D5' }, { name: 'Graphit', hex: '#2A2A28' }, { name: 'Wachs', hex: '#CF2A18' }]
+        },
+        {
+          cls: 't-pen', no: 'Stil 2', name: 'Papier & Kuli-Blau', font: 'Caveat 600',
+          desc: 'Gelbliches Notizpapier, klassischer blauer Kugelschreiber. Glatte Tinte mit feinen Schreibrillen statt Körnung, dünnere Striche.',
+          sw: [{ name: 'Papier', hex: '#FBF7E6' }, { name: 'Fläche', hex: '#F2EBD1' }, { name: 'Linie', hex: '#E4DBBD' }, { name: 'Tinte', hex: '#25272D' }, { name: 'Kuli', hex: '#1F3FA6' }]
+        },
+        {
+          cls: 't-pencil', no: 'Stil 3', name: 'Beige & Buntstift-Orange', font: 'Patrick Hand',
+          desc: 'Helles, freundliches Beige und ein leuchtendes Buntstift-Orange ohne dunklen Unterton. Schräge Schraffur und Papierkorn in der Schrift, Striche leicht unterbrochen.',
+          sw: [{ name: 'Papier', hex: '#FBF6EE' }, { name: 'Fläche', hex: '#F3EADB' }, { name: 'Linie', hex: '#E8DCC8' }, { name: 'Braun', hex: '#3A322A' }, { name: 'Orange', hex: '#E06A18' }]
+        }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

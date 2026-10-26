@@ -1,0 +1,11 @@
+# Diese Dateien werden bei Cloudflare nicht mit ausgeliefert
+wrangler.jsonc
+.assetsignore
+.gitignore
+.gitattributes
+.git
+node_modules
+handover
+tests
+CLAUDE.md
+README.md

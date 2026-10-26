@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Spielablauf und Wertung</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--wfont:'Gochi Hand',cursive;--wweight:400;--wimg:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);--wsize:4px 4px,7px 6px,100% 100%;--wstroke:.03em #C8210F;--wfilter:drop-shadow(0 0 .6px rgba(200,33,15,.5))}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink)}
+.wax{font-family:var(--wfont);font-weight:var(--wweight);color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;background-image:var(--wimg);background-size:var(--wsize);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:var(--wstroke);filter:var(--wfilter)}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+</style>
+</helmet>
+<div class="ui t-wax" style="width:1280px;min-height:1560px;box-sizing:border-box;padding:64px;display:flex;flex-direction:column;gap:52px">
+
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;align-items:baseline;gap:20px">
+      <h2 class="wax" style="margin:0;font-size:64px;line-height:1;transform:rotate(-2deg)">spielablauf</h2>
+      <span style="font-size:15px;color:var(--ink2)">Die App öffnet immer im Block. Ein Zug = ein Feld; Züge gesamt = 13 × Anzahl Spieler*innen.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{steps}}" as="s" hint-placeholder-count="8">
+        <div style="background:{{s.bg}};border-radius:16px;padding:20px 20px 22px 20px;display:flex;flex-direction:column;gap:8px;min-height:160px;box-sizing:border-box;box-shadow:{{s.ring}}">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span class="wax" style="font-size:40px;line-height:1">{{s.n}}</span>
+            <span style="font-size:17px;font-weight:700">{{s.t}}</span>
+          </div>
+          <span style="font-size:14px;line-height:1.5;color:var(--ink2)">{{s.d}}</span>
+          <span class="cap" style="margin-top:auto;font-size:10px;color:var(--ink)">{{s.screen}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <span style="font-size:14px;color:var(--ink2)">Schritte 3 – 5 wiederholen sich, bis jedes Feld gefüllt ist; dann folgt automatisch Schritt 6.</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <h2 class="wax" style="margin:0;font-size:52px;line-height:1;transform:rotate(-2deg);transform-origin:left">wertung</h2>
+      <div role="table" aria-label="Wertung" style="display:flex;flex-direction:column;border-top:1.5px solid var(--ink)">
+        <div role="row" style="display:grid;grid-template-columns:140px 1fr 90px 130px;gap:12px;padding:10px 0;border-bottom:1.5px solid var(--line2)">
+          <span role="columnheader" class="cap">Feld</span><span role="columnheader" class="cap">Bedingung</span><span role="columnheader" class="cap">Punkte</span><span role="columnheader" class="cap">Eingabe</span>
+        </div>
+        <sc-for list="{{score}}" as="r" hint-placeholder-count="11">
+          <div role="row" style="display:grid;grid-template-columns:140px 1fr 90px 130px;gap:12px;align-items:center;min-height:42px;border-bottom:1px solid var(--line);background:{{r.bg}}">
+            <span role="cell" style="font-size:15px;font-weight:600">{{r.f}}</span>
+            <span role="cell" style="font-size:14px;color:var(--ink2)">{{r.c}}</span>
+            <span role="cell" class="wax" style="font-size:24px;line-height:1">{{r.p}}</span>
+            <span role="cell" style="font-size:13px;color:var(--ink2)">{{r.i}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <h2 class="wax" style="margin:0;font-size:52px;line-height:1;transform:rotate(-2deg);transform-origin:left">eingabe</h2>
+      <sc-for list="{{inputs}}" as="i" hint-placeholder-count="4">
+        <div style="background:var(--paper2);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+            <span style="font-size:16px;font-weight:700">{{i.t}}</span>
+            <span class="cap" style="font-size:10px">{{i.taps}}</span>
+          </div>
+          <span style="font-size:14px;line-height:1.5;color:var(--ink2)">{{i.d}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <h2 class="wax" style="margin:0;font-size:52px;line-height:1;transform:rotate(-2deg);transform-origin:left">regeln &amp; randfälle</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:40px">
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="12">
+        <div style="display:flex;flex-direction:column;gap:4px;padding:14px 0;border-bottom:1px solid var(--line)">
+          <span style="font-size:15px;font-weight:700">{{r.t}}</span>
+          <span style="font-size:14px;line-height:1.5;color:var(--ink2)">{{r.d}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const hot = [2, 3, 4];
+    const steps = [
+      { n: '1', t: 'App öffnet im Block', d: 'Kein Startmenü. Der letzte Stand wird geladen – laufendes Spiel oder leerer Block mit den Namen der letzten Runde.', screen: '01 Block' },
+      { n: '2', t: 'Namen setzen', d: 'Standard: 2 Spalten. Name antippen → bekannte Namen wählen oder „Neuer Name“ eintippen. „+“ oben rechts neben dem Radierer fügt Personen hinzu (max. 5).', screen: '02 Namen' },
+      { n: '3', t: 'Wer ist dran?', d: 'Aktive Spalte ist getönt, Name unterstrichen. Nur dort sind leere Felder antippbar.', screen: '01 Block' },
+      { n: '4', t: 'Wert setzen', d: 'Sheet je Feldtyp: Anzahl-Kacheln, Zahl eintippen (Pasch, Chance) oder Festwert / Streichen.', screen: '03 · 04 · 05' },
+      { n: '5', t: 'Übergabe', d: 'Zahl erscheint im Stil-Stift, Summen rechnen live. Leiste unten: „Juli ist dran · Rückgängig“ (4 s).', screen: 'Leiste' },
+      { n: '6', t: 'Spielende', d: 'Letztes Feld gefüllt → Ergebnis öffnet sich. Spiel wird in Historie und Statistik gespeichert.', screen: '07 Ergebnis' },
+      { n: '7', t: 'Neues Spiel', d: 'Aus dem Ergebnis oder jederzeit per Radierer oben rechts. Punkte weg, Namen bleiben, Startperson rotiert.', screen: '06 Radierer' },
+      { n: '8', t: 'Statistik', d: 'Diagramm-Icon oben links öffnet eine eigene Seite: Durchschnitt und letzte Spiele (je einzeln scrollbar), Farbstil, ganz unten „Spielregeln & Wertung“.', screen: '08 Statistik' }
+    ].map((s, i) => Object.assign(s, { bg: hot.indexOf(i) >= 0 ? 'var(--paper2)' : 'transparent', ring: hot.indexOf(i) >= 0 ? 'none' : 'inset 0 0 0 1.5px var(--line)' }));
+    const score = [
+      { f: '1er – 6er', c: 'Summe aller Würfel mit dieser Augenzahl', p: '0–30', i: 'Anzahl 0–5×' },
+      { f: 'Bonus', c: 'automatisch, wenn Oben ≥ 63', p: '+35', i: '—', bg: 'var(--paper2)' },
+      { f: 'Dreierpasch', c: 'mind. 3 gleiche → Summe aller 5', p: '5–30', i: 'Zahl eintippen' },
+      { f: 'Viererpasch', c: 'mind. 4 gleiche → Summe aller 5', p: '5–30', i: 'Zahl eintippen' },
+      { f: 'Full House', c: '3 gleiche + 2 gleiche', p: '25', i: 'Festwert' },
+      { f: 'Kl. Straße', c: '4 aufeinanderfolgende', p: '30', i: 'Festwert' },
+      { f: 'Gr. Straße', c: '5 aufeinanderfolgende', p: '40', i: 'Festwert' },
+      { f: 'Kniffel', c: '5 gleiche', p: '50', i: 'Festwert' },
+      { f: 'Chance', c: 'beliebig → Summe aller 5', p: '5–30', i: 'Zahl eintippen' },
+      { f: 'Streichen', c: 'jedes Feld kann mit 0 belegt werden', p: '0', i: 'Strich' },
+      { f: 'Gesamt', c: 'Oben + Bonus + Unten, live', p: '≤ 375', i: '—', bg: 'var(--paper2)' }
+    ].map((r) => Object.assign({ bg: 'transparent' }, r));
+    const inputs = [
+      { t: 'Augen-Feld (1er – 6er)', taps: '2 Taps', d: 'Sechs Kacheln mit dem fertigen Wert. Die 3×-Kachel ist „Soll“, weil 3 × jede Zahl genau 63 ergibt.' },
+      { t: 'Summen-Feld (Pasch, Chance)', taps: '3–4 Taps', d: 'Eigenes Zahlenfeld im Sheet statt Systemtastatur: Ziffern tippen, Wert erscheint handgeschrieben. „Eintragen“ erst aktiv bei 5 – 30, sonst Hinweis. Streichen als Taste links unten.' },
+      { t: 'Festwert-Feld', taps: '2 Taps', d: 'Zwei große Kacheln: Wert eintragen oder streichen.' },
+      { t: 'Namen', taps: '2 Taps', d: 'Bekannte Namen als Chips, belegte ausgegraut mit Spaltenhinweis. „Neuer Name“ blendet ein Textfeld ein – erst dann kommt die Tastatur.' }
+    ];
+    const rules = [
+      { t: 'Nur die aktive Spalte', d: 'Leere Felder anderer Personen reagieren nicht. Gefüllte Felder kann man jederzeit antippen und ändern.' },
+      { t: 'Rückgängig', d: 'Nach jedem Eintrag 4 s in der Leiste unten. Nimmt den Eintrag zurück, der Zug geht zurück.' },
+      { t: 'Personen hinzufügen', d: '„+“ in der Kopfzeile direkt neben dem Radierer. Sichtbar bis zur 5. Person, danach ausgeblendet – und nur vor dem ersten Eintrag (sonst stimmt die Zugfolge nicht). Ab 4 Personen werden die Spalten schmaler.' },
+      { t: 'Spalte entfernen', d: 'Im Namen-Sheet, ebenfalls nur vor dem ersten Eintrag.' },
+      { t: 'Doppelte Namen', d: 'Ein Name kann nur in einer Spalte stehen. Groß-/Kleinschreibung zählt nicht.' },
+      { t: 'Ohne Namen spielen', d: 'Erlaubt. Die Spalte heißt dann „Spalte 2“; die Partie zählt nicht in die Statistik.' },
+      { t: 'Radierer', d: 'Bestätigung im Sheet. Laufendes, unfertiges Spiel wird verworfen und zählt nicht.' },
+      { t: 'Bonus-Kurs', d: 'Bonus-Zeile zeigt „Oben / 63“ und ± zum Soll (3 × je gefüllter Zahl). +35 erscheint automatisch.' },
+      { t: 'Spielstand sichern', d: 'Nach jedem Eintrag lokal speichern. App schließen und wieder öffnen → exakt gleicher Block.' },
+      { t: 'Gleichstand', d: 'Gleiche Punkte = geteilter Platz; im Ergebnis stehen beide Namen.' },
+      { t: 'Farbstil', d: 'In der Statistik wählbar (Wachs, Kuli, Buntstift). Gilt sofort für die ganze App, wird gespeichert.' },
+      { t: 'Nur lokal', d: 'Kein Online-Modus, kein Konto. Alle Daten bleiben auf dem Gerät.' }
+    ];
+    return { steps, score, inputs, rules };
+  }
+}
+</script>
+</body>
+</html>

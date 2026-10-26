@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Statistik</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--wfont:'Gochi Hand',cursive;--wweight:400;--wimg:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);--wsize:4px 4px,7px 6px,100% 100%;--wstroke:.03em #C8210F;--wfilter:drop-shadow(0 0 .6px rgba(200,33,15,.5));--hsd:none;--hso:1}
+.t-pen{--paper:#FBF7E6;--paper2:#F2EBD1;--line:#E4DBBD;--line2:#CDBF97;--ink:#25272D;--ink2:#464851;--ink3:#5E605F;--pen:#1F3FA6;--wfont:'Caveat',cursive;--wweight:600;--wimg:repeating-linear-gradient(100deg,transparent 0 3px,rgba(251,247,230,.22) 3px 4px),linear-gradient(180deg,#2A4BBE,#17348E);--wsize:auto,100% 100%;--wstroke:0 transparent;--wfilter:none;--hsd:none;--hso:1}
+.t-pencil{--paper:#FBF6EE;--paper2:#F3EADB;--line:#E8DCC8;--line2:#D3C2A6;--ink:#3A322A;--ink2:#5C5246;--ink3:#6B6155;--pen:#E06A18;--wfont:'Patrick Hand',cursive;--wweight:400;--wimg:repeating-linear-gradient(-55deg,rgba(251,246,238,.55) 0 .7px,transparent .7px 2.4px),radial-gradient(circle at 40% 40%,rgba(251,246,238,.6) 0 .5px,transparent .9px),linear-gradient(#F0832F,#E06A18 60%,#D85F10);--wsize:auto,3px 3px,100% 100%;--wstroke:.015em rgba(232,112,30,.5);--wfilter:none;--hsd:14 1.5;--hso:.9}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink)}
+.wax{font-family:var(--wfont);font-weight:var(--wweight);color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;background-image:var(--wimg);background-size:var(--wsize);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:var(--wstroke);filter:var(--wfilter)}
+.hs{fill:none;stroke:var(--pen);stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--hsd);opacity:var(--hso)}
+.ic{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+.scrollbox{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line2) transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line2)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,.scrollbox:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+</style>
+</helmet>
+<div class="ui {{th}}" style="width:390px;height:844px;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden">
+
+  <div style="display:flex;align-items:center;padding:48px 6px 0 6px">
+    <a href="Main.dc.html" aria-label="Zurück zum Block" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px">
+      <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+  </div>
+
+  <div style="padding:0 24px 0 24px;display:flex;flex-direction:column">
+    <h1 class="wax" style="margin:0;font-size:46px;line-height:.95;transform:rotate(-3deg);transform-origin:left bottom">statistik</h1>
+    <svg width="190" height="14" viewBox="0 0 200 14" aria-hidden="true" style="margin:2px 0 0 4px"><path class="hs" d="M4 9 C 50 3, 120 13, 196 4" stroke-width="3.6"></path></svg>
+  </div>
+
+  <div style="padding:16px 20px 0 20px;display:flex;flex-direction:column;gap:6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <span class="cap">Durchschnitt</span>
+      <span style="font-size:12px;color:var(--ink3)">{{avgCount}} Personen · Punkte pro Spiel</span>
+    </div>
+    <div class="scrollbox" tabindex="0" role="region" aria-label="Durchschnitt, scrollbar" style="max-height:166px">
+      <sc-for list="{{avgs}}" as="a" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:64px 1fr 52px;align-items:center;gap:12px;min-height:48px;border-bottom:1px solid var(--line);padding-right:4px">
+          <span class="wax" style="font-size:24px;line-height:1">{{a.name}}</span>
+          <div style="height:8px;border-radius:4px;background:var(--paper2);overflow:hidden"><div style="height:8px;border-radius:4px;width:{{a.w}}%;background:{{a.col}}"></div></div>
+          <span class="wax" style="font-size:28px;line-height:1;text-align:right">{{a.v}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding:18px 20px 0 20px;display:flex;flex-direction:column;gap:6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <span class="cap">Letzte Spiele</span>
+      <span style="font-size:12px;color:var(--ink3)">{{gameCount}} Spiele</span>
+    </div>
+    <div class="scrollbox" tabindex="0" role="region" aria-label="Letzte Spiele, scrollbar" style="max-height:178px">
+      <sc-for list="{{games}}" as="g" hint-placeholder-count="5">
+        <a href="Ergebnis.dc.html" style="text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:12px;min-height:52px;border-bottom:1px solid var(--line);padding-right:4px">
+          <div style="flex:1;display:flex;flex-direction:column;gap:1px">
+            <span style="font-size:15px;font-weight:500">{{g.players}}</span>
+            <span style="font-size:12px;color:var(--ink3)">{{g.date}} · Sieg {{g.winner}}</span>
+          </div>
+          <span class="wax" style="font-size:28px;line-height:1">{{g.score}}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" class="ic" stroke-width="1.8" aria-hidden="true" style="stroke:var(--ink3)"><path d="M9 5l7 7-7 7"></path></svg>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding:18px 20px 0 20px;display:flex;flex-direction:column;gap:8px">
+    <span class="cap">Farbstil</span>
+    <div role="radiogroup" aria-label="Farbstil" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+      <sc-for list="{{styles}}" as="o" hint-placeholder-count="3">
+        <button role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" style="border:0;background:transparent;padding:0;display:flex;flex-direction:column;gap:5px;align-items:stretch;text-align:left">
+          <span class="{{o.cls}}" style="height:68px;border-radius:14px;background:var(--paper);box-shadow:{{o.ring}};display:flex;align-items:center;justify-content:center;gap:8px">
+            <span class="wax" style="font-size:36px;line-height:1">25</span>
+            <svg width="34" height="10" viewBox="0 0 58 16" aria-hidden="true"><path class="hs" d="M4 10 C 13 3, 21 13, 30 7 S 47 4, 54 8" stroke-width="3.6"></path></svg>
+          </span>
+          <span style="font-size:13px;font-weight:600;color:var(--ink)">{{o.name}}</span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;padding:0 20px 30px 20px">
+    <a href="Regeln.dc.html" style="text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:12px;min-height:56px;padding:0 16px;border:1.5px solid var(--line2);border-radius:14px;box-sizing:border-box">
+      <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"></path><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"></path></svg>
+      <span style="flex:1;display:flex;flex-direction:column;gap:1px">
+        <span style="font-size:15px;font-weight:600">Spielregeln &amp; Wertung</span>
+        <span style="font-size:12px;color:var(--ink3)">Ablauf, Punkte, Bonus und Bedienung</span>
+      </span>
+      <svg width="16" height="16" viewBox="0 0 24 24" class="ic" stroke-width="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+    </a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"stil":{"editor":"enum","options":["Grau · Wachs-Rot","Papier · Kuli-Blau","Beige · Buntstift-Orange"],"default":"Grau · Wachs-Rot"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { pick: null, from: props.stil ?? 'Grau · Wachs-Rot' };
+  }
+  componentDidUpdate() {
+    const s = this.props.stil ?? 'Grau · Wachs-Rot';
+    if (s !== this.state.from) this.setState({ from: s, pick: null });
+  }
+  renderVals() {
+    const s = this.props.stil ?? 'Grau · Wachs-Rot';
+    const fromProp = s.indexOf('Kuli') >= 0 ? 't-pen' : (s.indexOf('Buntstift') >= 0 ? 't-pencil' : 't-wax');
+    const th = this.state.pick || fromProp;
+    const raw = [{ name: 'Juli', v: 261 }, { name: 'JoJo', v: 241 }, { name: 'Mo', v: 228 }, { name: 'Vivi', v: 206 }];
+    const games = [
+      { players: 'JoJo · Vivi', date: '09.09.2026', winner: 'JoJo', score: '206' },
+      { players: 'JoJo · Vivi', date: '12.08.2026', winner: 'JoJo', score: '309' },
+      { players: 'JoJo · Juli', date: '09.08.2026', winner: 'Juli', score: '290' },
+      { players: 'JoJo · Juli · Mo', date: '02.08.2026', winner: 'Mo', score: '254' },
+      { players: 'Juli · Vivi', date: '27.07.2026', winner: 'Juli', score: '271' }
+    ];
+    return {
+      th,
+      avgCount: raw.length,
+      gameCount: games.length,
+      avgs: raw.map((r, i) => ({ name: r.name, v: String(r.v), w: Math.round(r.v / 300 * 100), col: i === 0 ? 'var(--pen)' : 'var(--line2)' })),
+      games,
+      styles: [
+        { cls: 't-wax', name: 'Wachs' },
+        { cls: 't-pen', name: 'Kuli' },
+        { cls: 't-pencil', name: 'Buntstift' }
+      ].map((o) => ({
+        cls: o.cls, name: o.name,
+        checked: th === o.cls ? 'true' : 'false',
+        ring: th === o.cls ? '0 0 0 2px var(--paper), 0 0 0 4px #2A2A28' : 'inset 0 0 0 1px rgba(42,42,40,.18)',
+        pick: () => this.setState({ pick: o.cls })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

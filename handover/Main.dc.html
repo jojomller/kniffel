@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Kniffel – Block</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;family=Gochi+Hand&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+.t-wax{--paper:#F2F2F0;--paper2:#E8E8E5;--line:#D9D9D5;--line2:#BDBDB8;--ink:#2A2A28;--ink2:#4A4A47;--ink3:#666662;--pen:#CF2A18;--scrim:rgba(42,42,40,.45)}
+.t-pen{--paper:#FBF7E6;--paper2:#F2EBD1;--line:#E4DBBD;--line2:#CDBF97;--ink:#25272D;--ink2:#464851;--ink3:#5E605F;--pen:#1F3FA6;--scrim:rgba(37,39,45,.42)}
+.t-pencil{--paper:#FBF6EE;--paper2:#F3EADB;--line:#E8DCC8;--line2:#D3C2A6;--ink:#3A322A;--ink2:#5C5246;--ink3:#6B6155;--pen:#E06A18;--scrim:rgba(58,50,42,.38)}
+.ui{font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink)}
+.wax{font-family:'Gochi Hand','Bradley Hand',cursive;font-weight:400;color:var(--pen);font-size-adjust:cap-height .64;padding:.1em .16em;margin:-.1em -.16em;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.t-wax .wax{background-image:radial-gradient(circle at 30% 35%,rgba(242,242,240,.5) 0 .45px,transparent .8px),radial-gradient(circle at 70% 65%,rgba(255,170,150,.45) 0 .7px,transparent 1.1px),linear-gradient(172deg,#E2402A,#CC2412 55%,#B11A0B);background-size:4px 4px,7px 6px,100% 100%;-webkit-text-stroke:.03em #C8210F;filter:drop-shadow(0 0 .6px rgba(200,33,15,.5))}
+.t-pen .wax{font-family:'Caveat',cursive;font-weight:600;background-image:repeating-linear-gradient(100deg,transparent 0 3px,rgba(251,247,230,.22) 3px 4px),linear-gradient(180deg,#2A4BBE,#17348E)}
+.t-pencil .wax{font-family:'Patrick Hand',cursive;background-image:repeating-linear-gradient(-55deg,rgba(251,246,238,.55) 0 .7px,transparent .7px 2.4px),radial-gradient(circle at 40% 40%,rgba(251,246,238,.6) 0 .5px,transparent .9px),linear-gradient(#F0832F,#E06A18 60%,#D85F10);background-size:auto,3px 3px,100% 100%;-webkit-text-stroke:.015em rgba(232,112,30,.5)}
+.hs{fill:none;stroke:var(--pen);stroke-linecap:round;stroke-linejoin:round}
+.t-wax .hs{filter:drop-shadow(0 0 .6px rgba(200,33,15,.6))}
+.t-pen .hs{stroke-width:2px}
+.t-pencil .hs{opacity:.85;stroke-dasharray:14 1.5}
+.ic{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.cap{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--pen);outline-offset:-2px}
+input::placeholder{color:var(--ink3)}
+</style>
+</helmet>
+<div class="ui {{th}}" style="width:390px;height:844px;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;position:relative">
+
+  <div style="display:grid;grid-template-columns:96px 1fr 96px;align-items:center;padding:48px 6px 0 6px">
+    <a href="Statistik.dc.html" aria-label="Statistik öffnen" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px">
+      <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.7" aria-hidden="true"><path d="M4 20h16M7 20v-6M12 20V6M17 20v-9"></path></svg>
+    </a>
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <span class="wax" style="font-size:30px;line-height:1;transform:rotate(-2deg)">kniffel</span>
+      <span class="cap" style="font-size:10px">{{turnLabel}}</span>
+    </div>
+    <div style="display:flex;justify-content:flex-end;align-items:center">
+      <sc-if value="{{canAdd}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{addPlayer}}" aria-label="Person hinzufügen" style="width:44px;height:44px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" class="ic" stroke-width="1.8" aria-hidden="true"><path d="M12 4.5v15M4.5 12h15"></path></svg>
+        </button>
+      </sc-if>
+      <button onClick="{{openErase}}" aria-label="Neues Spiel – Block leeren" style="width:44px;height:44px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;border-radius:12px;padding:0">
+        <svg width="23" height="23" viewBox="0 0 24 24" class="ic" stroke-width="1.6" aria-hidden="true"><path d="M14.1 4.4a1.6 1.6 0 0 1 2.2 0l3.3 3.3a1.6 1.6 0 0 1 0 2.2L11 18.5H7.2l-3-3a1.6 1.6 0 0 1 0-2.2z"></path><path d="M8.6 9.9l5.5 5.5"></path><path d="M11 18.5h9"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div style="position:relative;display:grid;grid-template-columns:{{cols}};height:58px;box-sizing:border-box;border-bottom:1.5px solid var(--line2);margin-top:4px">
+    <div style="display:flex;align-items:flex-end;padding:0 0 10px 16px;border-right:1px solid var(--line)"><span class="cap" style="font-size:10px">Spieler*innen</span></div>
+    <sc-for list="{{heads}}" as="h" hint-placeholder-count="2">
+      <button onClick="{{h.open}}" aria-label="{{h.aria}}" style="border:0;border-right:1px solid var(--line);background:{{h.bg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 4px;min-width:0">
+        <sc-if value="{{h.hasName}}" hint-placeholder-val="{{true}}"><span class="wax" style="font-size:{{h.fs}}px;line-height:1.05;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{h.name}}</span></sc-if>
+        <sc-if value="{{h.noName}}" hint-placeholder-val="{{false}}"><span style="font-size:13px;color:var(--ink3);border-bottom:1.5px dashed var(--line2);padding-bottom:1px">Name</span></sc-if>
+        <sc-if value="{{h.active}}" hint-placeholder-val="{{false}}"><svg width="36" height="7" viewBox="0 0 40 7" aria-hidden="true"><path class="hs" d="M3 4.5 C 13 1.5, 25 6, 37 2.5" stroke-width="2.8"></path></svg></sc-if>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{rows}}" as="r" hint-placeholder-count="14">
+    <div style="display:grid;grid-template-columns:{{r.cols}};height:44px;box-sizing:border-box;border-bottom:{{r.bb}}">
+      <div style="display:flex;align-items:center;gap:9px;padding:0 8px 0 16px;border-right:1px solid var(--line);background:{{r.lbg}};min-width:0">
+        <sc-if value="{{r.hasDice}}" hint-placeholder-val="{{false}}">
+          <span style="position:relative;display:inline-block;width:19px;height:19px;border:1.5px solid var(--ink2);border-radius:5px;box-sizing:border-box;flex:none">
+            <sc-for list="{{r.pips}}" as="p" hint-placeholder-count="3"><span style="position:absolute;left:{{p.l}}px;top:{{p.t}}px;width:{{p.d}}px;height:{{p.d}}px;border-radius:50%;background:var(--ink2)"></span></sc-for>
+          </span>
+        </sc-if>
+        <sc-if value="{{r.isCat}}" hint-placeholder-val="{{true}}"><span style="flex:1;font-size:{{r.lfs}}px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{r.label}}</span></sc-if>
+        <sc-if value="{{r.isBonus}}" hint-placeholder-val="{{false}}"><span class="cap" style="flex:1;color:var(--ink)">Bonus</span></sc-if>
+        <span style="font-size:12px;color:var(--ink3);white-space:nowrap">{{r.hint}}</span>
+      </div>
+      <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="2">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:4px;background:{{c.bg}};border-right:1px solid var(--line);min-width:0">
+          <sc-if value="{{c.tappable}}" hint-placeholder-val="{{false}}">
+            <button onClick="{{c.tap}}" aria-label="{{c.aria}}" style="position:absolute;left:0;top:0;right:0;bottom:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center;padding:0">
+              <sc-if value="{{c.isVal}}" hint-placeholder-val="{{false}}"><span class="wax" style="font-size:{{c.fs}}px;line-height:1">{{c.v}}</span></sc-if>
+              <sc-if value="{{c.isStrike}}" hint-placeholder-val="{{false}}"><svg width="50" height="14" viewBox="0 0 58 16" aria-hidden="true" style="max-width:78%"><path class="hs" d="M4 10 C 13 3, 21 13, 30 7 S 47 4, 54 8" stroke-width="3.6"></path></svg></sc-if>
+              <sc-if value="{{c.isOpen}}" hint-placeholder-val="{{false}}"><svg width="32" height="4" viewBox="0 0 34 4" aria-hidden="true" style="position:absolute;bottom:10px"><path d="M2 2.4 C 12 1.2, 22 3, 32 1.8" style="fill:none;stroke:var(--line2);stroke-width:2;stroke-linecap:round"></path></svg></sc-if>
+            </button>
+          </sc-if>
+          <sc-if value="{{c.isBonusCell}}" hint-placeholder-val="{{false}}">
+            <sc-if value="{{c.reached}}" hint-placeholder-val="{{false}}"><span class="wax" style="font-size:24px;line-height:1">+35</span></sc-if>
+            <sc-if value="{{c.notReached}}" hint-placeholder-val="{{true}}">
+              <span style="font-size:13px;font-weight:600;font-variant-numeric:tabular-nums">{{c.up}}<span style="color:var(--ink3);font-weight:500">{{c.of}}</span></span>
+              <span style="font-size:11px;font-weight:600;color:var(--ink2);border:1px solid var(--line2);border-radius:5px;padding:0 4px">{{c.par}}</span>
+            </sc-if>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </sc-for>
+
+  <div style="display:grid;grid-template-columns:{{cols}};height:56px;box-sizing:border-box;border-top:2px solid var(--ink)">
+    <div style="display:flex;align-items:center;padding-left:16px;border-right:1px solid var(--line)"><span class="cap" style="color:var(--ink)">Gesamt</span></div>
+    <sc-for list="{{totals}}" as="t" hint-placeholder-count="2">
+      <div style="display:flex;align-items:center;justify-content:center;background:{{t.bg}};border-right:1px solid var(--line)"><span class="wax" style="font-size:{{t.fs}}px;line-height:1">{{t.v}}</span></div>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{showOver}}" hint-placeholder-val="{{false}}">
+    <a href="Ergebnis.dc.html" style="position:absolute;left:16px;right:16px;bottom:22px;min-height:56px;border-radius:16px;background:var(--ink);color:var(--paper);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Spiel beendet · Ergebnis</a>
+  </sc-if>
+
+  <sc-if value="{{hasSnack}}" hint-placeholder-val="{{false}}">
+    <div role="status" style="position:absolute;left:16px;right:16px;bottom:22px;min-height:52px;border-radius:14px;background:var(--ink);color:var(--paper);display:flex;align-items:center;gap:10px;padding:0 6px 0 18px">
+      <span style="flex:1;font-size:15px;font-weight:600">{{snack}}</span>
+      <button onClick="{{undo}}" style="min-height:44px;padding:0 12px;border:0;background:transparent;color:var(--paper);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px">Rückgängig</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{false}}">
+    <button onClick="{{close}}" aria-label="Schließen" tabindex="-1" style="position:absolute;left:0;top:0;right:0;bottom:0;border:0;padding:0;background:var(--scrim);cursor:default"></button>
+    <div role="dialog" aria-modal="true" aria-label="{{sheetTitle}}" style="position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-radius:24px 24px 0 0;padding:10px 20px 30px 20px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:center"><span style="width:38px;height:4px;border-radius:2px;background:var(--line2)"></span></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <sc-if value="{{sCount}}" hint-placeholder-val="{{false}}">
+          <span style="position:relative;display:inline-block;width:34px;height:34px;border:2px solid var(--ink);border-radius:9px;box-sizing:border-box;flex:none">
+            <sc-for list="{{facePips}}" as="p" hint-placeholder-count="3"><span style="position:absolute;left:{{p.l}}px;top:{{p.t}}px;width:{{p.d}}px;height:{{p.d}}px;border-radius:50%;background:var(--ink)"></span></sc-for>
+          </span>
+        </sc-if>
+        <div style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+          <span class="cap">{{sheetCap}}</span>
+          <h2 style="margin:0;font-size:24px;font-weight:700">{{sheetTitle}}</h2>
+        </div>
+        <button onClick="{{close}}" aria-label="Abbrechen" style="width:44px;height:44px;border:0;border-radius:22px;background:var(--paper2);display:flex;align-items:center;justify-content:center;padding:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" class="ic" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </div>
+
+      <sc-if value="{{sCount}}" hint-placeholder-val="{{false}}">
+        <p style="margin:0;font-size:15px;color:var(--ink2)">{{countQ}}</p>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+          <sc-for list="{{countOpts}}" as="o" hint-placeholder-count="6">
+            <button onClick="{{o.pick}}" aria-label="{{o.aria}}" style="position:relative;height:80px;border:0;border-radius:16px;background:var(--paper2);box-shadow:{{o.ring}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0">
+              <span class="wax" style="font-size:38px;line-height:1">{{o.v}}</span>
+              <span class="cap" style="font-size:10px">{{o.n}}</span>
+              <sc-if value="{{o.par}}" hint-placeholder-val="{{false}}"><span style="position:absolute;top:7px;right:8px;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--ink2)">SOLL</span></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{sSum}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;align-items:center;gap:14px;height:80px;border-radius:16px;background:var(--paper2);padding:0 18px;box-shadow:{{sumRing}}">
+          <sc-if value="{{hasTyped}}" hint-placeholder-val="{{false}}"><span class="wax" style="font-size:58px;line-height:1">{{typed}}</span></sc-if>
+          <span style="width:2px;height:42px;border-radius:1px;background:var(--pen)"></span>
+          <span style="margin-left:auto;font-size:13px;color:{{sumHintColor}};text-align:right;font-weight:500">{{sumHint}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <sc-for list="{{keys}}" as="k" hint-placeholder-count="12">
+            <button onClick="{{k.press}}" aria-label="{{k.aria}}" style="height:52px;border:0;border-radius:12px;background:{{k.bg}};font-size:22px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:6px;padding:0">
+              <sc-if value="{{k.isDigit}}" hint-placeholder-val="{{true}}">{{k.label}}</sc-if>
+              <sc-if value="{{k.isStrike}}" hint-placeholder-val="{{false}}"><svg width="30" height="12" viewBox="0 0 34 12" aria-hidden="true"><path class="hs" d="M3 7.5 C 9 3, 14 10, 19 5.5 S 28 4, 31 6" stroke-width="3"></path></svg><span style="font-size:12px;font-weight:600">Streichen</span></sc-if>
+              <sc-if value="{{k.isBack}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" class="ic" stroke-width="1.7" aria-hidden="true"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"></path><path d="M12 9.5l5 5M17 9.5l-5 5"></path></svg></sc-if>
+            </button>
+          </sc-for>
+        </div>
+        <button onClick="{{commitSum}}" disabled="{{sumInvalid}}" style="min-height:56px;border:0;border-radius:16px;background:{{sumBtnBg}};color:{{sumBtnFg}};font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Eintragen</button>
+      </sc-if>
+
+      <sc-if value="{{sFix}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;align-items:center;gap:6px">
+          <sc-for list="{{fixDice}}" as="d" hint-placeholder-count="5">
+            <span style="position:relative;display:inline-block;width:30px;height:30px;border:1.5px solid var(--ink2);border-radius:8px;box-sizing:border-box;flex:none">
+              <sc-for list="{{d.pips}}" as="p" hint-placeholder-count="3"><span style="position:absolute;left:{{p.l}}px;top:{{p.t}}px;width:{{p.d}}px;height:{{p.d}}px;border-radius:50%;background:var(--ink2)"></span></sc-for>
+            </span>
+          </sc-for>
+          <span style="font-size:14px;color:var(--ink2);padding-left:8px">{{fixRule}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+          <button onClick="{{fixTake}}" style="height:132px;border:0;border-radius:18px;background:var(--paper2);box-shadow:inset 0 0 0 2px var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0">
+            <span class="wax" style="font-size:64px;line-height:.95">{{fixVal}}</span>
+            <span class="cap" style="color:var(--ink)">Eintragen</span>
+          </button>
+          <button onClick="{{fixStrike}}" style="height:132px;border:1.5px solid var(--line2);border-radius:18px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:0">
+            <svg width="76" height="22" viewBox="0 0 76 22" aria-hidden="true"><path class="hs" d="M5 14 C 17 5, 28 19, 40 10 S 62 6, 71 11" stroke-width="4"></path></svg>
+            <span class="cap" style="color:var(--ink)">Streichen · 0</span>
+          </button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{sNames}}" hint-placeholder-val="{{false}}">
+        <span class="cap">Schon gespielt</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{nameChips}}" as="n" hint-placeholder-count="3">
+            <button onClick="{{n.pick}}" disabled="{{n.taken}}" aria-pressed="{{n.pressed}}" style="min-height:48px;padding:0 16px;border:0;border-radius:24px;background:{{n.bg}};box-shadow:{{n.ring}};display:flex;align-items:center;gap:8px;opacity:{{n.op}}">
+              <span class="wax" style="font-size:26px;line-height:1">{{n.name}}</span>
+              <sc-if value="{{n.taken}}" hint-placeholder-val="{{false}}"><span style="font-size:11px;color:var(--ink3)">{{n.where}}</span></sc-if>
+            </button>
+          </sc-for>
+          <button onClick="{{startType}}" aria-label="Neuen Namen eingeben" style="min-height:48px;padding:0 16px 0 12px;border:1.5px dashed var(--line2);border-radius:24px;background:transparent;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600">
+            <svg width="16" height="16" viewBox="0 0 24 24" class="ic" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            Neuer Name
+          </button>
+        </div>
+        <sc-if value="{{typing}}" hint-placeholder-val="{{false}}">
+          <label for="nm" class="cap" style="padding-top:4px">Name eintippen</label>
+          <div style="display:flex;gap:10px;align-items:center;border-bottom:1.5px solid var(--ink);padding-bottom:6px">
+            <input id="nm" type="text" autocomplete="off" maxlength="12" value="{{nameDraft}}" onChange="{{onName}}" onKeyDown="{{onNameKey}}" placeholder="z. B. Vivi" style="flex:1;border:0;background:transparent;font-size:18px;min-height:44px;outline:none;padding:0">
+            <button onClick="{{confirmName}}" style="min-height:44px;padding:0 16px;border:0;border-radius:12px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:700">Übernehmen</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{canRemove}}" hint-placeholder-val="{{false}}">
+          <button onClick="{{removeCol}}" style="align-self:flex-start;border:0;background:transparent;min-height:44px;padding:0;font-size:14px;font-weight:600;color:var(--ink2);text-decoration:underline;text-underline-offset:4px">Spalte entfernen</button>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{sErase}}" hint-placeholder-val="{{false}}">
+        <p style="margin:0;font-size:15px;line-height:1.5;color:var(--ink2)">Alle Punkte werden ausradiert. Die Namen bleiben stehen, <strong style="color:var(--ink)">{{nextStarter}}</strong> beginnt.</p>
+        <button onClick="{{doErase}}" style="min-height:60px;border:0;border-radius:16px;background:var(--ink);color:var(--paper);font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Block leeren</button>
+        <button onClick="{{close}}" style="min-height:52px;border:1.5px solid var(--line2);border-radius:14px;background:transparent;font-size:15px;font-weight:600">Weiterspielen</button>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"stil":{"editor":"enum","options":["Grau · Wachs-Rot","Papier · Kuli-Blau","Beige · Buntstift-Orange"],"default":"Grau · Wachs-Rot"},"start":{"editor":"enum","options":["Leerer Block","Mitten im Spiel"],"default":"Leerer Block"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.initial(props.start ?? 'Leerer Block');
+  }
+  initial(mode) {
+    const mid = mode === 'Mitten im Spiel';
+    return {
+      mode,
+      players: [
+        { name: 'JoJo', s: mid ? { u1: 3, u4: 12, u6: 18, ks: 30 } : {} },
+        { name: 'Juli', s: mid ? { u2: 6, u5: 20, fh: 25, kn: 0 } : {} }
+      ],
+      start: 0, known: ['JoJo', 'Juli', 'Vivi'],
+      sheet: null, typed: '', nameDraft: '', typing: false, history: [], snack: ''
+    };
+  }
+  componentDidUpdate() {
+    const m = this.props.start ?? 'Leerer Block';
+    if (m !== this.state.mode) this.setState(this.initial(m));
+  }
+  componentWillUnmount() { clearTimeout(this.timer); }
+  theme() {
+    const s = this.props.stil ?? 'Grau · Wachs-Rot';
+    return s.indexOf('Kuli') >= 0 ? 't-pen' : (s.indexOf('Buntstift') >= 0 ? 't-pencil' : 't-wax');
+  }
+  cats() {
+    return [
+      { id: 'u1', label: '1er', face: 1 }, { id: 'u2', label: '2er', face: 2 }, { id: 'u3', label: '3er', face: 3 },
+      { id: 'u4', label: '4er', face: 4 }, { id: 'u5', label: '5er', face: 5 }, { id: 'u6', label: '6er', face: 6 },
+      { id: 'k3', label: 'Dreierpasch', hint: 'Σ' }, { id: 'k4', label: 'Viererpasch', hint: 'Σ' },
+      { id: 'fh', label: 'Full House', hint: '25', fixed: 25 }, { id: 'ks', label: 'Kl. Straße', hint: '30', fixed: 30 },
+      { id: 'gs', label: 'Gr. Straße', hint: '40', fixed: 40 }, { id: 'kn', label: 'Kniffel', hint: '50', fixed: 50 },
+      { id: 'ch', label: 'Chance', hint: 'Σ' }
+    ];
+  }
+  pips(n, s, d) {
+    const a = s * 0.27, m = s * 0.5, z = s * 0.73;
+    const P = { tl: [a, a], tr: [z, a], ml: [a, m], c: [m, m], mr: [z, m], bl: [a, z], br: [z, z] };
+    const map = { 1: ['c'], 2: ['tr', 'bl'], 3: ['tr', 'c', 'bl'], 4: ['tl', 'tr', 'bl', 'br'], 5: ['tl', 'tr', 'c', 'bl', 'br'], 6: ['tl', 'tr', 'ml', 'mr', 'bl', 'br'] };
+    return map[n].map((k) => ({ l: (P[k][0] - d / 2).toFixed(1), t: (P[k][1] - d / 2).toFixed(1), d }));
+  }
+  sums(p) {
+    let up = 0, low = 0, par = 0;
+    this.cats().forEach((c) => {
+      const v = p.s[c.id];
+      if (v === undefined) return;
+      if (c.face) { up += v; par += v - 3 * c.face; } else low += v;
+    });
+    const bonus = up >= 63 ? 35 : 0;
+    return { up, low, bonus, par, total: up + bonus + low };
+  }
+  clone() { return this.state.players.map((p) => ({ name: p.name, s: Object.assign({}, p.s) })); }
+  filled(players) { return players.reduce((a, p) => a + Object.keys(p.s).length, 0); }
+  label(p, i) { return p.name || ('Spalte ' + (i + 1)); }
+  close() { this.setState({ sheet: null, typed: '', typing: false, nameDraft: '' }); }
+  openCat(c, p, cur) {
+    const type = c.face ? 'count' : (c.fixed ? 'fixed' : 'sum');
+    this.setState({
+      sheet: { type, p, cat: c.id, title: c.label, face: c.face, fixed: c.fixed, edit: cur !== undefined, cur },
+      typed: type === 'sum' && cur ? String(cur) : '', typing: false
+    });
+  }
+  commit(v) {
+    const sh = this.state.sheet;
+    if (!sh) return;
+    const players = this.clone();
+    const prev = players[sh.p].s[sh.cat];
+    players[sh.p].s[sh.cat] = v;
+    const n = players.length, f = this.filled(players);
+    const next = (this.state.start + f) % n;
+    const text = sh.edit
+      ? this.label(players[sh.p], sh.p) + ': ' + sh.title + ' geändert'
+      : (f >= 13 * n ? 'Letztes Feld eingetragen' : this.label(players[next], next) + ' ist dran');
+    this.setState({ players, history: this.state.history.concat([{ p: sh.p, cat: sh.cat, prev }]), sheet: null, typed: '', snack: text });
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ snack: '' }), 4000);
+  }
+  undo() {
+    const h = this.state.history;
+    if (!h.length) return;
+    const last = h[h.length - 1];
+    const players = this.clone();
+    if (last.prev === undefined) delete players[last.p].s[last.cat]; else players[last.p].s[last.cat] = last.prev;
+    clearTimeout(this.timer);
+    this.setState({ players, history: h.slice(0, -1), snack: '' });
+  }
+  setName(name) {
+    const nm = (name || '').trim();
+    const sh = this.state.sheet;
+    if (!nm || !sh) return;
+    const players = this.clone();
+    if (players.some((p, i) => i !== sh.p && p.name.toLowerCase() === nm.toLowerCase())) return;
+    players[sh.p].name = nm;
+    const known = this.state.known.some((k) => k.toLowerCase() === nm.toLowerCase()) ? this.state.known : this.state.known.concat([nm]);
+    this.setState({ players, known, sheet: null, typing: false, nameDraft: '' });
+  }
+  addPlayer() {
+    const players = this.clone();
+    if (players.length >= 5) return;
+    players.push({ name: '', s: {} });
+    this.setState({ players, sheet: { type: 'names', p: players.length - 1, title: 'Name für Spalte ' + players.length }, typing: false, nameDraft: '' });
+  }
+  removeCol() {
+    const sh = this.state.sheet;
+    const players = this.clone();
+    if (!sh || players.length <= 1) return;
+    players.splice(sh.p, 1);
+    this.setState({ players, sheet: null, start: Math.min(this.state.start, players.length - 1) });
+  }
+  erase() {
+    const players = this.state.players.map((p) => ({ name: p.name, s: {} }));
+    clearTimeout(this.timer);
+    this.setState({ players, history: [], sheet: null, snack: '', start: (this.state.start + 1) % players.length });
+  }
+  renderVals() {
+    const st = this.state, cats = this.cats(), n = st.players.length;
+    const f = this.filled(st.players), turns = 13 * n, over = f >= turns;
+    const active = (st.start + f) % n;
+    const labW = n >= 4 ? 112 : (n === 3 ? 124 : 140);
+    const cols = labW + 'px repeat(' + n + ', minmax(0, 1fr))';
+    const fs = n <= 2 ? 28 : (n === 3 ? 26 : 22);
+    const actBg = 'var(--paper2)';
+    const sums = st.players.map((p) => this.sums(p));
+    const word = ['', 'Einser', 'Zweier', 'Dreier', 'Vierer', 'Fünfer', 'Sechser'];
+
+    const heads = st.players.map((p, i) => {
+      const act = i === active && !over;
+      return {
+        name: p.name, hasName: !!p.name, noName: !p.name, active: act,
+        bg: act ? actBg : 'transparent', fs: n <= 2 ? 26 : (n === 3 ? 23 : 19),
+        aria: this.label(p, i) + ': Name ändern',
+        open: () => this.setState({ sheet: { type: 'names', p: i, title: p.name ? 'Name ändern' : 'Name für Spalte ' + (i + 1) }, typing: false, nameDraft: '' })
+      };
+    });
+
+    const cellFor = (c, p, i) => {
+      const v = p.s[c.id], filled = v !== undefined, isAct = i === active && !over;
+      return {
+        tappable: filled || isAct, isVal: filled && v > 0, isStrike: filled && v === 0, isOpen: !filled && isAct,
+        isBonusCell: false, v: filled ? String(v) : '', fs,
+        bg: isAct ? actBg : 'transparent',
+        aria: this.label(p, i) + ': ' + c.label + (filled ? (v === 0 ? ' gestrichen' : ' ' + v) + ', ändern' : ' eintragen'),
+        tap: () => this.openCat(c, i, filled ? v : undefined)
+      };
+    };
+    const rows = [];
+    cats.forEach((c) => {
+      rows.push({
+        cols, isCat: true, isBonus: false, hasDice: !!c.face, pips: c.face ? this.pips(c.face, 16, 3.4) : [],
+        label: c.label, hint: n >= 4 ? '' : (c.hint || ''), lfs: n >= 4 ? 13 : (n === 3 ? 14 : 15), lbg: 'transparent',
+        bb: c.id === 'u6' ? '1px solid var(--line2)' : '1px solid var(--line)',
+        cells: st.players.map((p, i) => cellFor(c, p, i))
+      });
+      if (c.id === 'u6') {
+        rows.push({
+          cols, isCat: false, isBonus: true, hasDice: false, pips: [], label: 'Bonus', hint: n >= 3 ? '' : '+35', lfs: 15,
+          lbg: actBg, bb: '1px solid var(--line2)',
+          cells: sums.map((s) => ({
+            isBonusCell: true, tappable: false, reached: s.up >= 63, notReached: s.up < 63, up: s.up,
+            of: n <= 2 ? ' / 63' : '',
+            par: s.par > 0 ? '+' + s.par : (s.par === 0 ? '±0' : '−' + Math.abs(s.par)), bg: actBg
+          }))
+        });
+      }
+    });
+
+    const sh = st.sheet;
+    const out = {
+      th: this.theme(), cols, rows, heads,
+      turnLabel: over ? 'Spiel beendet' : 'Zug ' + (f + 1) + ' / ' + turns,
+      totals: sums.map((s, i) => ({ v: String(s.total), fs: n <= 2 ? 36 : 28, bg: i === active && !over ? actBg : 'transparent' })),
+      canAdd: f === 0 && n < 5,
+      addPlayer: () => this.addPlayer(),
+      openErase: () => this.setState({ sheet: { type: 'erase' } }),
+      hasSnack: !!st.snack, snack: st.snack, undo: () => this.undo(),
+      showOver: over && !st.snack && !sh,
+      sheetOpen: !!sh, close: () => this.close(),
+      sCount: !!sh && sh.type === 'count', sSum: !!sh && sh.type === 'sum', sFix: !!sh && sh.type === 'fixed',
+      sNames: !!sh && sh.type === 'names', sErase: !!sh && sh.type === 'erase',
+      sheetTitle: '', sheetCap: '', facePips: [], countQ: '', countOpts: [],
+      typed: st.typed, hasTyped: st.typed !== '', keys: [], sumHint: '', sumHintColor: 'var(--ink3)', sumRing: 'none',
+      sumInvalid: true, sumBtnBg: 'var(--line)', sumBtnFg: 'var(--ink3)', commitSum: () => {},
+      fixDice: [], fixRule: '', fixVal: '', fixTake: () => {}, fixStrike: () => {},
+      nameChips: [], typing: st.typing, nameDraft: st.nameDraft, canRemove: false,
+      startType: () => this.setState({ typing: true }),
+      onName: (e) => this.setState({ nameDraft: e.target.value }),
+      onNameKey: (e) => { if (e.key === 'Enter') this.setName(this.state.nameDraft); },
+      confirmName: () => this.setName(this.state.nameDraft),
+      removeCol: () => this.removeCol(),
+      nextStarter: this.label(st.players[(st.start + 1) % n], (st.start + 1) % n),
+      doErase: () => this.erase()
+    };
+    if (!sh) return out;
+
+    if (sh.type === 'erase') { out.sheetTitle = 'Neues Spiel?'; out.sheetCap = 'Radierer'; return out; }
+    if (sh.type === 'names') {
+      out.sheetTitle = sh.title; out.sheetCap = 'Spalte ' + (sh.p + 1);
+      out.canRemove = f === 0 && n > 1;
+      out.nameChips = st.known.map((k) => {
+        const idx = st.players.findIndex((p) => p.name.toLowerCase() === k.toLowerCase());
+        const taken = idx >= 0 && idx !== sh.p, cur = idx === sh.p;
+        return {
+          name: k, taken, pressed: cur ? 'true' : 'false', where: taken ? 'Spalte ' + (idx + 1) : '',
+          bg: cur ? 'var(--paper2)' : 'transparent',
+          ring: cur ? 'inset 0 0 0 2px var(--ink)' : 'inset 0 0 0 1.5px var(--line2)',
+          op: taken ? 0.45 : 1, pick: () => this.setName(k)
+        };
+      });
+      return out;
+    }
+
+    const who = this.label(st.players[sh.p], sh.p);
+    out.sheetTitle = sh.title;
+    out.sheetCap = who + (sh.edit ? ' · ändern' : ' · Zug ' + (f + 1));
+    if (sh.type === 'count') {
+      out.countQ = 'Wie viele ' + word[sh.face] + ' liegen?';
+      out.facePips = this.pips(sh.face, 30, 5.5);
+      out.countOpts = [0, 1, 2, 3, 4, 5].map((k) => {
+        const v = k * sh.face;
+        return {
+          v: String(v), n: k === 0 ? 'keine' : k + ' ×', par: k === 3,
+          aria: v + ' Punkte, ' + (k === 0 ? 'keine' : k) + ' ' + word[sh.face],
+          ring: sh.edit && sh.cur === v ? 'inset 0 0 0 2px var(--ink)' : (k === 3 ? 'inset 0 0 0 1.5px var(--line2)' : 'none'),
+          pick: () => this.commit(v)
+        };
+      });
+    } else if (sh.type === 'sum') {
+      const num = st.typed === '' ? NaN : parseInt(st.typed, 10);
+      const valid = num >= 5 && num <= 30;
+      out.sumHint = st.typed === '' ? 'Summe aller 5 Würfel · 5–30' : (valid ? 'Summe aller 5 Würfel' : 'Nur 5 – 30 möglich');
+      out.sumHintColor = st.typed !== '' && !valid ? 'var(--ink)' : 'var(--ink3)';
+      out.sumRing = valid ? 'inset 0 0 0 2px var(--ink)' : 'none';
+      out.sumInvalid = !valid;
+      out.sumBtnBg = valid ? 'var(--ink)' : 'var(--line)';
+      out.sumBtnFg = valid ? 'var(--paper)' : 'var(--ink3)';
+      out.commitSum = () => { if (valid) this.commit(num); };
+      out.keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'x', '0', '<'].map((k) => {
+        if (k === 'x') return { isStrike: true, aria: 'Streichen', bg: 'transparent', press: () => this.commit(0) };
+        if (k === '<') return { isBack: true, aria: 'Löschen', bg: 'transparent', press: () => this.setState({ typed: this.state.typed.slice(0, -1) }) };
+        return {
+          isDigit: true, label: k, aria: k, bg: 'var(--paper2)',
+          press: () => { const t = this.state.typed; if (t.length < 2) this.setState({ typed: (t === '0' ? '' : t) + k }); }
+        };
+      });
+    } else if (sh.type === 'fixed') {
+      const ex = { fh: [5, 5, 5, 2, 2], ks: [1, 2, 3, 4, 6], gs: [2, 3, 4, 5, 6], kn: [4, 4, 4, 4, 4] }[sh.cat];
+      out.fixRule = { fh: '3 gleiche + 2 gleiche', ks: '4 in Folge', gs: '5 in Folge', kn: '5 gleiche' }[sh.cat];
+      out.fixDice = ex.map((d) => ({ pips: this.pips(d, 27, 4.6) }));
+      out.fixVal = String(sh.fixed);
+      out.fixTake = () => this.commit(sh.fixed);
+      out.fixStrike = () => this.commit(0);
+    }
+    return out;
+  }
+}
+</script>
+</body>
+</html>
